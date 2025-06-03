@@ -1,13 +1,11 @@
-const mysql = require('mysql2');
+const mariadb = require('mariadb');
 
-const pool = mysql.createPool({
+const pool = mariadb.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || 'your_mysql_password_here',
+  password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'ecommerce_template',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  connectionLimit: 10
 });
 
-module.exports = pool.promise();
+module.exports = pool;
