@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env' });
+const jwt = require('jsonwebtoken');
 
 const authenticateAdmin = (req, res, next) => {
   const token =

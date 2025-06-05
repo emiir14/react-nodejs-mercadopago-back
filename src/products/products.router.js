@@ -3,36 +3,32 @@ const { getAll, getById, create, update, remove } = require('./products.controll
 const {
   createProductValidation,
   updateProductValidation,
+  idParamValidation,
 } = require('./products.validation');
 const authenticateAdmin = require('../middlewares/auth.middleware');
 const handleValidationErrors = require('../middlewares/handleValidationErrors');
 
 const router = Router();
+const applyMiddlewares = (...middlewares) => middlewares;
 
 router.get('/', getAll);
 router.get('/:id', getById);
 
 router.post(
   '/',
-  authenticateAdmin,
-  createProductValidation,
-  handleValidationErrors,
+  applyMiddlewares(authenticateAdmin, createProductValidation, handleValidationErrors),
   create
 );
 
-router.put(
+router.patch(
   '/:id',
-  authenticateAdmin,
-  updateProductValidation,
-  handleValidationErrors,
+  applyMiddlewares(authenticateAdmin, updateProductValidation, handleValidationErrors),
   update
 );
 
 router.delete(
   '/:id',
-  authenticateAdmin,
-  updateProductValidation,
-  handleValidationErrors,
+  applyMiddlewares(authenticateAdmin, idParamValidation, handleValidationErrors),
   remove
 );
 

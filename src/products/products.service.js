@@ -8,23 +8,13 @@ exports.createProduct = async (productData) => {
     price,
     stock = 1,
     categoryId,
-    imageUrl,
+    imageUrl = 'https://example.com/default-image.jpg',
     isActive = true,
   } = productData;
 
-  if (!name || !slug || !description || !price || !categoryId) {
-    throw new Error(
-      'Missing required fields: name, slug, description, price, or categoryId.'
-    );
-  }
-
-  if (isNaN(price) || isNaN(stock)) {
-    throw new Error('Price and stock must be numbers.');
-  }
-
   // Check slug uniqueness
   const conn = await db.getConnection();
-  const [existing] = await conn.query('SELECT id FROM products WHERE slug = ?', [slug]);
+  const existing = await conn.query('SELECT id FROM products WHERE slug = ?', [slug]);
   if (existing.length > 0) throw new Error('Slug already in use.');
 
   try {
@@ -41,11 +31,11 @@ exports.createProduct = async (productData) => {
       price,
       stock,
       categoryId,
-      imageUrl ?? null,
+      imageUrl,
       isActive,
     ];
 
-    const [result] = await conn.query(query, values);
+    const result = await conn.query(query, values);
     return result.insertId;
   } catch (error) {
     console.error('Error creating product:', error);
@@ -113,14 +103,12 @@ exports.getProducts = async (rawQuery) => {
   try {
     conn = await db.getConnection();
 
-    // Total count
     const [countResult] = await conn.query(
       `SELECT COUNT(*) as total ${baseQuery}`,
       params
     );
     const total = Number(countResult.total);
 
-    // Main query
     const productQuery = `
       SELECT p.*, c.name as category_name 
       ${baseQuery}
