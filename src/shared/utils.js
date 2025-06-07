@@ -1,0 +1,1 @@
+exports.applyMiddlewares = (...middlewares) => middlewares;

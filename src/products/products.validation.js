@@ -14,7 +14,7 @@ exports.createProductValidation = [
 ];
 
 exports.updateProductValidation = [
-  param('id').isInt().toInt(),
+  param('id').toInt().isInt({ gt: 0 }),
   body('name').optional().isString().trim().notEmpty(),
   body('slug').optional().isString().trim().notEmpty(),
   body('description').optional().isString().trim().notEmpty(),

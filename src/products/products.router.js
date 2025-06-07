@@ -7,9 +7,9 @@ const {
 } = require('./products.validation');
 const authenticateAdmin = require('../middlewares/auth.middleware');
 const handleValidationErrors = require('../middlewares/handleValidationErrors');
+const { applyMiddlewares } = require('../shared/utils');
 
 const router = Router();
-const applyMiddlewares = (...middlewares) => middlewares;
 
 router.get('/', getAll);
 router.get('/:id', getById);
