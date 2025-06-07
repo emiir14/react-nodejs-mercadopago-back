@@ -62,7 +62,9 @@ CREATE TABLE newsletter_emails (
 );
 
 -- Indexes and Constraints
+CREATE INDEX idx_product_id ON order_items(product_id);
 CREATE INDEX idx_product_category ON products(category_id);
+CREATE INDEX idx_product_slug ON products(slug);
+CREATE INDEX idx_order_id ON order_items(order_id);
 CREATE INDEX idx_order_created_at ON orders(created_at);
-CREATE INDEX idx_product_slug ON products(slug);  -- Added index for slug
-CREATE INDEX idx_order_customer_email ON orders(customer_email);  -- Added index for customer email
+CREATE INDEX idx_order_customer_email ON orders(customer_email);
